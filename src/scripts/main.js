@@ -10,19 +10,19 @@ const pushNotification = (title, type) => {
   document.body.append(message);
 };
 
-const firstpromise = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve, reject) => {
   window.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
   setTimeout(() => reject(new Error('First promise was rejected')), 3000);
 });
 
-firstpromise
+firstPromise
   .then((message) => {
     pushNotification(message, 'success');
   })
-  .catch(() => {
-    pushNotification('First promise was rejected', 'error');
+  .catch((error) => {
+    pushNotification(error.message, 'error');
   });
 
 const secondPromise = new Promise((resolve) => {
@@ -36,9 +36,13 @@ const secondPromise = new Promise((resolve) => {
   });
 });
 
-secondPromise.then((message) => {
-  pushNotification(message, 'success');
-});
+secondPromise
+  .then((message) => {
+    pushNotification(message, 'success');
+  })
+  .catch((error) => {
+    pushNotification(error.message, 'error');
+  });
 
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
@@ -62,4 +66,8 @@ const thirdPromise = new Promise((resolve) => {
   });
 });
 
-thirdPromise.then((message) => pushNotification(message, 'success'));
+thirdPromise
+  .then((message) => pushNotification(message, 'success'))
+  .catch((error) => {
+    pushNotification(error.message, 'error');
+  });
