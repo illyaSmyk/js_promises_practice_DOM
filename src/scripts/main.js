@@ -11,26 +11,26 @@ const pushNotification = (title, type) => {
 };
 
 const firstPromise = new Promise((resolve, reject) => {
-  window.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('First promise was resolved');
   });
-  setTimeout(() => reject(new Error('First promise was rejected')), 3000);
+  setTimeout(() => reject('First promise was rejected'), 3000);
 });
 
 firstPromise
   .then((message) => {
     pushNotification(message, 'success');
   })
-  .catch((error) => {
-    pushNotification(error.message, 'error');
+  .catch((message) => {
+    pushNotification(message, 'error');
   });
 
 const secondPromise = new Promise((resolve) => {
-  window.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     resolve('Second promise was resolved');
   });
 
-  window.addEventListener('contextmenu', (e) => {
+  document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     resolve('Second promise was resolved');
   });
@@ -40,15 +40,15 @@ secondPromise
   .then((message) => {
     pushNotification(message, 'success');
   })
-  .catch((error) => {
-    pushNotification(error.message, 'error');
+  .catch((message) => {
+    pushNotification(message, 'error');
   });
 
 const thirdPromise = new Promise((resolve) => {
   let leftClicked = false;
   let rightClicked = false;
 
-  window.addEventListener('click', () => {
+  document.addEventListener('click', () => {
     leftClicked = true;
 
     if (rightClicked) {
@@ -56,7 +56,7 @@ const thirdPromise = new Promise((resolve) => {
     }
   });
 
-  window.addEventListener('contextmenu', (e) => {
+  document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     rightClicked = true;
 
@@ -68,6 +68,6 @@ const thirdPromise = new Promise((resolve) => {
 
 thirdPromise
   .then((message) => pushNotification(message, 'success'))
-  .catch((error) => {
-    pushNotification(error.message, 'error');
+  .catch((message) => {
+    pushNotification(message, 'error');
   });
